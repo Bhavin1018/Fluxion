@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReactFlow - Modern State Management for React</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <h1>ReactFlow</h1>
+        <span class="version">v1.0.0</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#getting-started">Getting Started</a></li>
+          <li><a href="#examples">Examples</a></li>
+          <li><a href="#api">API</a></li>
+          <li><a href="#migration">Migration</a></li>
+          <li><a href="https://github.com/yourusername/reactflow" target="_blank">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>A modern, lightweight state management library for React applications</h1>
+      <p>ReactFlow addresses the limitations of existing solutions like Redux, Zustand, and Nano Stores with a simpler API, better performance, and more powerful features.</p>
+      <div class="cta-buttons">
+        <a href="#getting-started" class="btn primary">Get Started</a>
+        <a href="#examples" class="btn secondary">View Examples</a>
+      </div>
+      <div class="code-preview">
+        <pre><code class="language-typescript">import { createStore, createHooks } from 'reactflow';
+
+// Create a store with initial state
+const counterStore = createStore({
+  count: 0,
+  increment: () => counterStore.setState(s => ({ count: s.count + 1 })),
+  decrement: () => counterStore.setState(s => ({ count: s.count - 1 }))
+});
+
+// Create hooks for the store
+const { useStore, useSelector } = createHooks(counterStore);
+
+// Use in components
+function Counter() {
+  const count = useSelector(state => state.count);
+  const { increment, decrement } = useSelector(state => ({
+    increment: state.increment,
+    decrement: state.decrement
+  }));
+  
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={decrement}>-</button>
+      <button onClick={increment}>+</button>
+    </div>
+  );
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="container">
+      <h2>Features</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>Simple API</h3>
+          <p>Intuitive and minimal API that reduces boilerplate code and makes state management straightforward.</p>
+        </div>
+        <div class="feature-card">
+          <h3>TypeScript First</h3>
+          <p>Built with TypeScript for excellent type safety and developer experience.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Performance Optimized</h3>
+          <p>Efficient updates with automatic memoization to prevent unnecessary re-renders.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Middleware Support</h3>
+          <p>Extensible with middleware for logging, persistence, throttling, and more.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Immer Integration</h3>
+          <p>Immutable updates with the simplicity of mutable code using Immer.</p>
+        </div>
+        <div class="feature-card">
+          <h3>DevTools Support</h3>
+          <p>Redux DevTools integration for debugging and time-travel.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Lightweight</h3>
+          <p>Small bundle size with minimal dependencies for optimal performance.</p>
+        </div>
+        <div class="feature-card">
+          <h3>React Hooks</h3>
+          <p>Modern React hooks API for accessing state in functional components.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Async Actions</h3>
+          <p>Built-in support for async actions with loading states and error handling.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Time-Travel Debugging</h3>
+          <p>Snapshot-based time-travel debugging for complex state management.</p>
+        </div>
+        <div class="feature-card">
+          <h3>State Slicing</h3>
+          <p>Organize complex state with slices for better code organization.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Vanilla JS Support</h3>
+          <p>Use ReactFlow without React in vanilla JavaScript applications or other frameworks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="getting-started" class="getting-started">
+    <div class="container">
+      <h2>Getting Started</h2>
+      <div class="installation">
+        <h3>Installation</h3>
+        <pre><code class="language-bash">npm install reactflow
+# or
+yarn add reactflow</code></pre>
+      </div>
+      <div class="basic-usage">
+        <h3>Basic Usage</h3>
+        <pre><code class="language-typescript">import { createStore, createHooks } from 'reactflow';
+import { useEffect } from 'react';
+
+// Define your state type
+interface CounterState {
+  count: number;
+  increment: () => void;
+  decrement: () => void;
+}
+
+// Create a store with initial state
+const counterStore = createStore<CounterState>({
+  count: 0,
+  increment: () => {},
+  decrement: () => {}
+});
+
+// Initialize the store with methods
+counterStore.setState((state) => {
+  state.increment = () => counterStore.setState(s => ({ count: s.count + 1 }));
+  state.decrement = () => counterStore.setState(s => ({ count: s.count - 1 }));
+});
+
+// Create hooks for the store
+const { useStore, useSelector, useDispatch } = createHooks(counterStore);
+
+// Use in components
+function Counter() {
+  // Option 1: Use the full store
+  const [state, setState] = useStore();
+  
+  // Option 2: Select specific parts of state
+  const count = useSelector(state => state.count);
+  
+  // Option 3: Get just the dispatch function
+  const dispatch = useDispatch();
+  
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={state.increment}>Increment</button>
+      <button onClick={state.decrement}>Decrement</button>
+    </div>
+  );
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="examples" class="examples">
+    <div class="container">
+      <h2>Examples</h2>
+      <div class="example-tabs">
+        <div class="tab-buttons">
+          <button class="tab-button active" data-tab="react">React</button>
+          <button class="tab-button" data-tab="vanilla">Vanilla JS</button>
+          <button class="tab-button" data-tab="async">Async</button>
+          <button class="tab-button" data-tab="middleware">Middleware</button>
+          <button class="tab-button" data-tab="computed">Computed</button>
+        </div>
+        <div class="tab-content">
+          <div class="tab-pane active" id="react-tab">
+            <h3>React Counter Example</h3>
+            <pre><code class="language-tsx">import React from 'react';
+import { createStore, createHooks } from 'reactflow';
+
+interface CounterState {
+  count: number;
+  increment: () => void;
+  decrement: () => void;
+  reset: () => void;
+}
+
+const counterStore = createStore<CounterState>({
+  count: 0,
+  increment: () => {},
+  decrement: () => {},
+  reset: () => {}
+});
+
+counterStore.setState((state) => {
+  state.increment = () => counterStore.setState(s => ({ count: s.count + 1 }));
+  state.decrement = () => counterStore.setState(s => ({ count: s.count - 1 }));
+  state.reset = () => counterStore.setState(() => ({ count: 0 }));
+});
+
+const { useStore, useSelector } = createHooks(counterStore);
+
+function Counter() {
+  const count = useSelector(state => state.count);
+  const { increment, decrement, reset } = useSelector(state => ({
+    increment: state.increment,
+    decrement: state.decrement,
+    reset: state.reset
+  }));
+  
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={decrement}>-</button>
+      <button onClick={reset}>Reset</button>
+      <button onClick={increment}>+</button>
+    </div>
+  );
+}</code></pre>
+          </div>
+          <div class="tab-pane" id="vanilla-tab">
+            <h3>Vanilla JavaScript Example</h3>
+            <pre><code class="language-javascript">import { createStore, createVanillaStore } from 'reactflow';
+
+// Create a store with initial state
+const store = createStore({ count: 0 });
+
+// Create a vanilla store adapter
+const counterStore = createVanillaStore(store);
+
+// DOM elements
+const countElement = document.getElementById('count');
+const incrementButton = document.getElementById('increment');
+const decrementButton = document.getElementById('decrement');
+const resetButton = document.getElementById('reset');
+
+// Update UI with current state
+function updateUI(state) {
+  countElement.textContent = state.count;
+}
+
+// Initialize UI
+updateUI(counterStore.getState());
+
+// Subscribe to state changes
+counterStore.subscribe((state) => {
+  updateUI(state);
+});
+
+// Add event listeners
+incrementButton.addEventListener('click', () => {
+  counterStore.setState((state) => ({ count: state.count + 1 }));
+});
+
+decrementButton.addEventListener('click', () => {
+  counterStore.setState((state) => ({ count: state.count - 1 }));
+});
+
+resetButton.addEventListener('click', () => {
+  counterStore.setState({ count: 0 });
+});</code></pre>
+          </div>
+          <div class="tab-pane" id="async-tab">
+            <h3>Async Actions Example</h3>
+            <pre><code class="language-tsx">import { createStore, createHooks, createAsyncMiddleware, createUseAsyncAction, isLoading, getErrors } from 'reactflow';
+
+// Create store with async middleware
+const store = createStore(
+  { users: [], loading: {}, errors: {} },
+  { middleware: [createAsyncMiddleware()] }
+);
+
+const { useDispatch, useSelector } = createHooks(store);
+const useAsyncAction = createUseAsyncAction(useDispatch);
+
+function UserComponent() {
+  const asyncAction = useAsyncAction();
+  const loading = useSelector(state => isLoading(state, ['fetchUsers']));
+  const errors = useSelector(state => getErrors(state, ['fetchUsers']));
+  const users = useSelector(state => state.users);
+  
+  const fetchUsers = () => {
+    asyncAction(
+      () => fetch('https://jsonplaceholder.typicode.com/users').then(r => r.json()),
+      {
+        actionName: 'fetchUsers',
+        onSuccess: (users) => {
+          store.setState({ users });
+        }
+      }
+    );
+  };
+  
+  return (
+    <div>
+      {loading && <p>Loading...</p>}
+      {errors.fetchUsers && <p>Error: {errors.fetchUsers.message}</p>}
+      <button onClick={fetchUsers}>Fetch Users</button>
+      <ul>
+        {users.map(user => <li key={user.id}>{user.name}</li>)}
+      </ul>
+    </div>
+  );
+}</code></pre>
+          </div>
+          <div class="tab-pane" id="middleware-tab">
+            <h3>Middleware Example</h3>
+            <pre><code class="language-tsx">import { createStore, createLoggerMiddleware, createPersistMiddleware, storageAdapters } from 'reactflow';
+
+const store = createStore(
+  { count: 0 },
+  {
+    middleware: [
+      createLoggerMiddleware({ collapsed: true }),
+      createPersistMiddleware('my-app-state', {
+        storage: storageAdapters.localStorage,
+        // Or use other storage adapters:
+        // storage: storageAdapters.indexedDB('my-db'),
+        // storage: storageAdapters.cookie({ maxAge: 86400 }),
+        // storage: storageAdapters.memory,
+        blacklist: ['temporaryData'],
+        version: 1,
+        migrate: (state, version) => {
+          // Handle migrations between versions
+          return state;
+        }
+      })
+    ],
+    devtools: true,
+    name: 'My App Store'
+  }
+);</code></pre>
+          </div>
+          <div class="tab-pane" id="computed-tab">
+            <h3>Computed State Example</h3>
+            <pre><code class="language-tsx">import { createStore, createHooks, computed, createUseComputed } from 'reactflow';
+
+interface CartState {
+  items: Array<{ id: number; price: number; quantity: number }>;
+}
+
+const cartStore = createStore<CartState>({
+  items: []
+});
+
+const { useStore, useSelector } = createHooks(cartStore);
+const useComputed = createUseComputed(cartStore);
+
+// Create a computed selector
+const totalPrice = computed(
+  (state) => state.items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+  { name: 'totalPrice' }
+);
+
+// Create a computed selector with dependencies
+const itemCount = computed(state => state.items.length);
+const averagePrice = computed(
+  (state) => state.items.length === 0 ? 0 : 
+    state.items.reduce((sum, item) => sum + item.price, 0) / state.items.length
+);
+
+function CartSummary() {
+  // Option 1: Use the computed selector
+  const total = useSelector(totalPrice);
+  
+  // Option 2: Use the useComputed hook
+  const itemsCount = useComputed(state => state.items.length);
+  const average = useComputed(
+    state => state.items.length === 0 ? 0 : 
+      state.items.reduce((sum, item) => sum + item.price, 0) / state.items.length
+  );
+  
+  return (
+    <div>
+      <p>Items: {itemsCount}</p>
+      <p>Total: ${total.toFixed(2)}</p>
+      <p>Average Price: ${average.toFixed(2)}</p>
+    </div>
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="api" class="api">
+    <div class="container">
+      <h2>API Reference</h2>
+      <div class="api-section">
+        <h3>Core API</h3>
+        <ul class="api-list">
+          <li>
+            <h4>createStore</h4>
+            <p>Creates a new store with the given initial state and options.</p>
+          </li>
+          <li>
+            <h4>createHooks</h4>
+            <p>Creates React hooks for a store (useStore, useSelector, useDispatch).</p>
+          </li>
+          <li>
+            <h4>createVanillaStore</h4>
+            <p>Creates a vanilla JavaScript adapter for a ReactFlow store.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="api-section">
+        <h3>Middleware</h3>
+        <ul class="api-list">
+          <li>
+            <h4>createLoggerMiddleware</h4>
+            <p>Creates a middleware that logs state changes to the console.</p>
+          </li>
+          <li>
+            <h4>createPersistMiddleware</h4>
+            <p>Creates a middleware that persists state to storage.</p>
+          </li>
+          <li>
+            <h4>createThrottleMiddleware</h4>
+            <p>Creates a middleware that throttles state updates.</p>
+          </li>
+          <li>
+            <h4>storageAdapters</h4>
+            <p>Storage adapters for persistence (localStorage, sessionStorage, indexedDB, cookie, memory).</p>
+          </li>
+        </ul>
+      </div>
+      <div class="api-section">
+        <h3>Async</h3>
+        <ul class="api-list">
+          <li>
+            <h4>createAsyncMiddleware</h4>
+            <p>Creates a middleware for handling async actions.</p>
+          </li>
+          <li>
+            <h4>createAsyncAction</h4>
+            <p>Creates an async action creator.</p>
+          </li>
+          <li>
+            <h4>createUseAsyncAction</h4>
+            <p>Creates a hook for using async actions in components.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="api-section">
+        <h3>Computed State</h3>
+        <ul class="api-list">
+          <li>
+            <h4>computed</h4>
+            <p>Creates a computed value that updates when its dependencies change.</p>
+          </li>
+          <li>
+            <h4>computedWith</h4>
+            <p>Creates a computed value with explicit dependencies.</p>
+          </li>
+          <li>
+            <h4>createUseComputed</h4>
+            <p>Creates a hook for using computed values in components.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="api-section">
+        <h3>State Organization</h3>
+        <ul class="api-list">
+          <li>
+            <h4>createSlice</h4>
+            <p>Creates a slice of state from a store.</p>
+          </li>
+          <li>
+            <h4>createUseSlice</h4>
+            <p>Creates a hook for using slices in components.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="api-section">
+        <h3>Time-Travel Debugging</h3>
+        <ul class="api-list">
+          <li>
+            <h4>createSnapshotManager</h4>
+            <p>Creates a snapshot manager for time-travel debugging.</p>
+          </li>
+          <li>
+            <h4>createSnapshotMiddleware</h4>
+            <p>Creates a middleware that automatically takes snapshots.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="migration" class="migration">
+    <div class="container">
+      <h2>Migration Guides</h2>
+      <div class="migration-tabs">
+        <div class="tab-buttons">
+          <button class="tab-button active" data-tab="zustand">From Zustand</button>
+          <button class="tab-button" data-tab="redux">From Redux</button>
+        </div>
+        <div class="tab-content">
+          <div class="tab-pane active" id="zustand-tab">
+            <h3>Migrating from Zustand</h3>
+            <p>ReactFlow builds upon the simplicity of Zustand while offering enhanced features and improved performance.</p>
+            <a href="./migration-guide.html#zustand" class="btn secondary">View Full Zustand Migration Guide</a>
+          </div>
+          <div class="tab-pane" id="redux-tab">
+            <h3>Migrating from Redux</h3>
+            <p>ReactFlow offers a simpler API with less boilerplate while maintaining powerful features.</p>
+            <a href="./migration-guide.html#redux" class="btn secondary">View Full Redux Migration Guide</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="comparison">
+    <div class="container">
+      <h2>Why ReactFlow?</h2>
+      <div class="comparison-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Zustand</th>
+              <th>Redux</th>
+              <th>ReactFlow</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Boilerplate</td>
+              <td>Low</td>
+              <td>High</td>
+              <td>Very Low</td>
+            </tr>
+            <tr>
+              <td>TypeScript Support</td>
+              <td>Good</td>
+              <td>Good with Redux Toolkit</td>
+              <td>Excellent</td>
+            </tr>
+            <tr>
+              <td>Middleware</td>
+              <td>Limited</td>
+              <td>Extensive</td>
+              <td>Built-in, Extensible</td>
+            </tr>
+            <tr>
+              <td>DevTools</td>
+              <td>Basic</td>
+              <td>Excellent</td>
+              <td>Enhanced</td>
+            </tr>
+            <tr>
+              <td>Async Actions</td>
+              <td>Manual</td>
+              <td>Requires Redux Thunk/Saga</td>
+              <td>Built-in</td>
+            </tr>
+            <tr>
+              <td>Selectors</td>
+              <td>Basic</td>
+              <td>Requires Reselect</td>
+              <td>Advanced with Auto-Memoization</td>
+            </tr>
+            <tr>
+              <td>Persistence</td>
+              <td>Via middleware</td>
+              <td>Via redux-persist</td>
+              <td>Enhanced built-in</td>
+            </tr>
+            <tr>
+              <td>State Organization</td>
+              <td>Flat</td>
+              <td>Reducers</td>
+              <td>Slices</td>
+            </tr>
+            <tr>
+              <td>Bundle Size</td>
+              <td>Small</td>
+              <td>Large</td>
+              <td>Small</td>
+            </tr>
+            <tr>
+              <td>Learning Curve</td>
+              <td>Low</td>
+              <td>High</td>
+              <td>Low</td>
+            </tr>
+            <tr>
+              <td>Time-Travel Debugging</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>Vanilla JS Support</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h2>ReactFlow</h2>
+          <p>A modern, lightweight state management library for React applications</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h3>Documentation</h3>
+            <ul>
+              <li><a href="#getting-started">Getting Started</a></li>
+              <li><a href="#api">API Reference</a></li>
+              <li><a href="#examples">Examples</a></li>
+              <li><a href="#migration">Migration Guides</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Community</h3>
+            <ul>
+              <li><a href="https://github.com/yourusername/reactflow" target="_blank">GitHub</a></li>
+              <li><a href="https://github.com/yourusername/reactflow/issues" target="_blank">Issues</a></li>
+              <li><a href="https://github.com/yourusername/reactflow/discussions" target="_blank">Discussions</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="https://react.dev" target="_blank">React</a></li>
+              <li><a href="https://www.typescriptlang.org" target="_blank">TypeScript</a></li>
+              <li><a href="https://immerjs.github.io/immer" target="_blank">Immer</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 ReactFlow. MIT Licensed.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Tab switching functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabButtons = document.querySelectorAll('.tab-button');
+      
+      tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const tabGroup = this.closest('.tab-buttons');
+          const tabContent = tabGroup.nextElementSibling;
+          const tabName = this.getAttribute('data-tab');
+          
+          // Remove active class from all buttons in this group
+          tabGroup.querySelectorAll('.tab-button').forEach(btn => {
+            btn.classList.remove('active');
+          });
+          
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          // Hide all tab panes in this group
+          tabContent.querySelectorAll('.tab-pane').forEach(pane => {
+            pane.classList.remove('active');
+          });
+          
+          // Show the selected tab pane
+          document.getElementById(`${tabName}-tab`).classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReactFlow Vanilla JS Todo App</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #333;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .todo-app {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .todo-form {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    
+    .todo-form input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px 0 0 4px;
+      font-size: 1rem;
+    }
+    
+    .todo-form button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    
+    .filters {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+    
+    .filters button {
+      padding: 6px 12px;
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .filters button.active {
+      background-color: #4CAF50;
+      color: white;
+      border-color: #4CAF50;
+    }
+    
+    .todo-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .todo-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .todo-item:last-child {
+      border-bottom: none;
+    }
+    
+    .todo-item input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    
+    .todo-item.completed span {
+      text-decoration: line-through;
+      color: #888;
+    }
+    
+    .todo-item button {
+      margin-left: auto;
+      padding: 4px 8px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .clear-completed {
+      margin-top: 20px;
+      padding: 8px 16px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    
+    .state-display {
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+    }
+    
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>ReactFlow Vanilla JavaScript Todo App</h1>
+  
+  <div class="todo-app">
+    <form class="todo-form" id="todo-form">
+      <input type="text" id="new-todo" placeholder="What needs to be done?" />
+      <button type="submit">Add</button>
+    </form>
+    
+    <div class="filters">
+      <button id="filter-all" class="active">All</button>
+      <button id="filter-active">Active</button>
+      <button id="filter-completed">Completed</button>
+    </div>
+    
+    <ul class="todo-list" id="todo-list"></ul>
+    
+    <button class="clear-completed" id="clear-completed">Clear completed</button>
+  </div>
+  
+  <div class="state-display">
+    <h3>Current State:</h3>
+    <pre id="state-json"></pre>
+  </div>
+  
+  <script type="module">
+    // Import ReactFlow (when using via CDN or bundled script)
+    // const { createStore, createPersistMiddleware } = ReactFlow;
+    
+    // For development with Vite, import from the library source
+    import { createStore, createLoggerMiddleware, createPersistMiddleware } from '../../dist/index.mjs';
+    
+    // Create a store for todos
+    const todoStore = createStore(
+      {
+        todos: [],
+        filter: 'all'
+      },
+      {
+        middleware: [
+          createLoggerMiddleware({ collapsed: true }),
+          createPersistMiddleware('vanilla-js-todos')
+        ],
+        devtools: true,
+        name: 'Vanilla JS Todo App'
+      }
+    );
+    
+    // DOM elements
+    const todoForm = document.getElementById('todo-form');
+    const newTodoInput = document.getElementById('new-todo');
+    const todoList = document.getElementById('todo-list');
+    const filterAllButton = document.getElementById('filter-all');
+    const filterActiveButton = document.getElementById('filter-active');
+    const filterCompletedButton = document.getElementById('filter-completed');
+    const clearCompletedButton = document.getElementById('clear-completed');
+    const stateJsonElement = document.getElementById('state-json');
+    
+    // Actions
+    function addTodo(text) {
+      todoStore.setState(state => ({
+        todos: [
+          ...state.todos,
+          {
+            id: Date.now(),
+            text,
+            completed: false
+          }
+        ]
+      }));
+    }
+    
+    function toggleTodo(id) {
+      todoStore.setState(state => ({
+        todos: state.todos.map(todo =>
+          todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        )
+      }));
+    }
+    
+    function removeTodo(id) {
+      todoStore.setState(state => ({
+        todos: state.todos.filter(todo => todo.id !== id)
+      }));
+    }
+    
+    function clearCompleted() {
+      todoStore.setState(state => ({
+        todos: state.todos.filter(todo => !todo.completed)
+      }));
+    }
+    
+    function setFilter(filter) {
+      todoStore.setState({ filter });
+    }
+    
+    // Render functions
+    function renderTodos() {
+      const { todos, filter } = todoStore.getState();
+      
+      // Filter todos based on current filter
+      const filteredTodos = todos.filter(todo => {
+        if (filter === 'active') return !todo.completed;
+        if (filter === 'completed') return todo.completed;
+        return true; // 'all' filter
+      });
+      
+      // Clear current list
+      todoList.innerHTML = '';
+      
+      // Render filtered todos
+      filteredTodos.forEach(todo => {
+        const li = document.createElement('li');
+        li.className = `todo-item${todo.completed ? ' completed' : ''}`;
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = todo.completed;
+        checkbox.addEventListener('change', () => toggleTodo(todo.id));
+        
+        const span = document.createElement('span');
+        span.textContent = todo.text;
+        
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => removeTodo(todo.id));
+        
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(deleteButton);
+        
+        todoList.appendChild(li);
+      });
+    }
+    
+    function renderFilters() {
+      const { filter } = todoStore.getState();
+      
+      filterAllButton.className = filter === 'all' ? 'active' : '';
+      filterActiveButton.className = filter === 'active' ? 'active' : '';
+      filterCompletedButton.className = filter === 'completed' ? 'active' : '';
+    }
+    
+    function updateStateDisplay() {
+      stateJsonElement.textContent = JSON.stringify(todoStore.getState(), null, 2);
+    }
+    
+    // Update UI with current state
+    function updateUI() {
+      renderTodos();
+      renderFilters();
+      updateStateDisplay();
+    }
+    
+    // Initialize UI
+    updateUI();
+    
+    // Subscribe to state changes
+    todoStore.subscribe(() => {
+      updateUI();
+    });
+    
+    // Event listeners
+    todoForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = newTodoInput.value.trim();
+      if (text) {
+        addTodo(text);
+        newTodoInput.value = '';
+      }
+    });
+    
+    filterAllButton.addEventListener('click', () => setFilter('all'));
+    filterActiveButton.addEventListener('click', () => setFilter('active'));
+    filterCompletedButton.addEventListener('click', () => setFilter('completed'));
+    clearCompletedButton.addEventListener('click', clearCompleted);
+  </script>
+</body>
+</html>

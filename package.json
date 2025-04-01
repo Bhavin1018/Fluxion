@@ -1,0 +1,74 @@
+{
+  "name": "reactflow",
+  "version": "1.0.0-beta.1",
+  "description": "A modern, lightweight state management library for React applications",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsup src/index.ts --format esm,cjs,umd --dts --minify",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "prepare": "npm run build",
+    "docs": "vite docs/website --open",
+    "prepublishOnly": "npm run test && npm run lint && npm run build"
+  },
+  "keywords": [
+    "react",
+    "state",
+    "state-management",
+    "store",
+    "flux",
+    "redux-alternative",
+    "zustand-alternative",
+    "hooks",
+    "typescript",
+    "immer",
+    "immutable",
+    "async",
+    "middleware",
+    "vanilla-js"
+  ],
+  "author": "ReactFlow Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reactflow/reactflow.git"
+  },
+  "homepage": "https://reactflow.dev",
+  "bugs": {
+    "url": "https://github.com/reactflow/reactflow/issues"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "USAGE_GUIDE.md"
+  ],
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "prettier": "^3.0.0",
+    "tsup": "^7.1.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vitest": "^0.34.1"
+  },
+  "dependencies": {
+    "immer": "^10.0.2"
+  }
+}
