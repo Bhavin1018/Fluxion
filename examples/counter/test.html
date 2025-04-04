@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>React Test Page</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Load React -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
+
+  <!-- React Component -->
+  <script type="text/babel">
+    // Define the App component
+    function App() {
+      const [count, setCount] = React.useState(0);
+      
+      return (
+        <div className="container">
+          <h1>React Test Page</h1>
+          <p>If you can see this content, React is working properly!</p>
+          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+            <p>Counter: {count}</p>
+            <button 
+              onClick={() => setCount(count + 1)}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#3498db',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                marginRight: '10px'
+              }}
+            >
+              Increment
+            </button>
+            <button 
+              onClick={() => setCount(count - 1)}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#e74c3c',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              Decrement
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // Improved rendering function with better error handling
+    function renderApp() {
+      try {
+        console.log('Attempting to render React component...');
+        const rootElement = document.getElementById('root');
+        if (!rootElement) {
+          console.error('Root element not found! Make sure there is a div with id="root" in the HTML.');
+          return;
+        }
+        
+        // Create root using ReactDOM.createRoot API
+        const root = ReactDOM.createRoot(rootElement);
+        
+        // Render with React.StrictMode for better development experience
+        root.render(
+          <React.StrictMode>
+            <App />
+          </React.StrictMode>
+        );
+        
+        console.log('React component rendered successfully');
+      } catch (error) {
+        console.error('Error rendering React component:', error);
+        console.error('Error details:', error.message);
+        
+        // Display error on page for better debugging
+        const rootElement = document.getElementById('root');
+        if (rootElement) {
+          rootElement.innerHTML = `
+            <div style="padding: 20px; color: red; border: 1px solid red;">
+              <h2>React Rendering Error</h2>
+              <p>${error.message}</p>
+            </div>
+          `;
+        }
+      }
+    }
+
+    // Try to render when DOM is fully loaded
+    if (document.readyState === 'complete') {
+      console.log('DOM is already complete, rendering immediately');
+      renderApp();
+    } else {
+      console.log('Waiting for DOMContentLoaded event');
+      document.addEventListener('DOMContentLoaded', renderApp);
+      
+      // Final fallback with a slight delay
+      setTimeout(() => {
+        console.log('Fallback timer triggered');
+        renderApp();
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

@@ -88,7 +88,7 @@ When adding new features, please consider the following:
 
 ## Migration Guides
 
-ReactFlow aims to make it easy for users to migrate from other state management libraries. When contributing to migration guides:
+Fluxion aims to make it easy for users to migrate from other state management libraries. When contributing to migration guides:
 
 1. Ensure examples are clear and show equivalent code patterns
 2. Cover basic usage, component integration, middleware, and async patterns

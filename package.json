@@ -1,5 +1,5 @@
 {
-  "name": "reactflow",
+  "name": "fluxion",
   "version": "1.0.0-beta.1",
   "description": "A modern, lightweight state management library for React applications",
   "main": "dist/index.js",
@@ -33,15 +33,15 @@
     "middleware",
     "vanilla-js"
   ],
-  "author": "ReactFlow Team",
+  "author": "Fluxion Team",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/reactflow/reactflow.git"
+    "url": "https://github.com/fluxion/fluxion.git"
   },
-  "homepage": "https://reactflow.dev",
+  "homepage": "https://fluxion.dev",
   "bugs": {
-    "url": "https://github.com/reactflow/reactflow/issues"
+    "url": "https://github.com/fluxion/fluxion/issues"
   },
   "files": [
     "dist",
@@ -50,8 +50,8 @@
     "USAGE_GUIDE.md"
   ],
   "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

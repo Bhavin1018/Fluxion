@@ -1,11 +1,11 @@
-# ReactFlow
+# Fluxion
 
 A modern, lightweight state management library for React applications that addresses the limitations of existing solutions like Redux, Zustand, and Nano Stores.
 
-[![npm version](https://img.shields.io/npm/v/reactflow.svg?style=flat-square)](https://www.npmjs.com/package/reactflow)
-[![npm downloads](https://img.shields.io/npm/dm/reactflow.svg?style=flat-square)](https://www.npmjs.com/package/reactflow)
-[![Bundle Size](https://img.shields.io/bundlephobia/minzip/reactflow)](https://bundlephobia.com/package/reactflow)
-[![license](https://img.shields.io/npm/l/reactflow.svg?style=flat-square)](https://github.com/reactflow/reactflow/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/fluxion.svg?style=flat-square)](https://www.npmjs.com/package/fluxion)
+[![npm downloads](https://img.shields.io/npm/dm/fluxion.svg?style=flat-square)](https://www.npmjs.com/package/fluxion)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/fluxion)](https://bundlephobia.com/package/fluxion)
+[![license](https://img.shields.io/npm/l/fluxion.svg?style=flat-square)](https://github.com/fluxion/fluxion/blob/main/LICENSE)
 
 ## Features
 
@@ -38,17 +38,17 @@ A modern, lightweight state management library for React applications that addre
 ## Installation
 
 ```bash
-npm install reactflow
+npm install fluxion
 # or
-yarn add reactflow
+yarn add fluxion
 # or
-pnpm add reactflow
+pnpm add fluxion
 ```
 
 ## Basic Usage
 
 ```tsx
-import { createStore, createHooks } from 'reactflow';
+import { createStore, createHooks } from 'fluxion';
 
 // Define your state type
 interface CounterState {
@@ -96,7 +96,7 @@ function Counter() {
 
 ## Core Concepts
 
-ReactFlow is built around these core concepts:
+Fluxion is built around these core concepts:
 
 ### Store
 
@@ -104,11 +104,11 @@ The store is the central repository for your application state. It provides meth
 
 ### Hooks
 
-ReactFlow provides React hooks for accessing and updating state in your components. These hooks are optimized to prevent unnecessary re-renders.
+Fluxion provides React hooks for accessing and updating state in your components. These hooks are optimized to prevent unnecessary re-renders.
 
 ### Middleware
 
-Middleware extends the functionality of your store. ReactFlow includes middleware for logging, persistence, throttling, and more.
+Middleware extends the functionality of your store. Fluxion includes middleware for logging, persistence, throttling, and more.
 
 ### Selectors
 
@@ -129,7 +129,7 @@ Creates a new store with the given initial state and options.
 - `options`: Configuration options for the store
   - `middleware`: Array of middleware functions
   - `devtools`: Enable Redux DevTools integration (default: false)
-  - `name`: Name for the store in DevTools (default: 'ReactFlow Store')
+  - `name`: Name for the store in DevTools (default: 'Fluxion Store')
 
 **Returns:** A store instance with the following methods:
 - `getState()`: Returns the current state
@@ -207,7 +207,7 @@ Creates a hook for using slices of state.
 ### Using Middleware
 
 ```tsx
-import { createStore, createLoggerMiddleware, createPersistMiddleware } from 'reactflow';
+import { createStore, createLoggerMiddleware, createPersistMiddleware } from 'fluxion';
 
 const store = createStore(
   { count: 0 },
@@ -227,7 +227,7 @@ const store = createStore(
 Built-in support for async actions with loading states and error handling:
 
 ```tsx
-import { createStore, createHooks, createAsyncMiddleware, createUseAsyncAction, isLoading, getErrors } from 'reactflow';
+import { createStore, createHooks, createAsyncMiddleware, createUseAsyncAction, isLoading, getErrors } from 'fluxion';
 
 // Define your state type with async state
 interface UserState {
@@ -293,7 +293,7 @@ function UserList() {
 Snapshot-based time-travel debugging:
 
 ```tsx
-import { createStore, createHooks, createSnapshotManager } from 'reactflow';
+import { createStore, createHooks, createSnapshotManager } from 'fluxion';
 import { useState } from 'react';
 
 // Create a store

@@ -1,8 +1,8 @@
 # Migration Guide
 
-## Migrating from Zustand to ReactFlow
+## Migrating from Zustand to Fluxion
 
-This guide will help you migrate your application from Zustand to ReactFlow. ReactFlow builds upon the simplicity of Zustand while offering enhanced features and improved performance.
+This guide will help you migrate your application from Zustand to Fluxion. Fluxion builds upon the simplicity of Zustand while offering enhanced features and improved performance.
 
 ### Basic Store Migration
 
@@ -23,11 +23,11 @@ const useBearStore = create<BearState>((set) => ({
 }))
 ```
 
-#### ReactFlow Store
+#### Fluxion Store
 
 ```tsx
-// ReactFlow
-import { createStore, createHooks } from 'reactflow'
+// Fluxion
+import { createStore, createHooks } from 'fluxion'
 
 interface BearState {
   bears: number
@@ -67,10 +67,10 @@ function BearCounter() {
 }
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
+// Fluxion
 function BearCounter() {
   // Option 1: Use selectors for individual pieces of state
   const bears = useSelector(state => state.bears)
@@ -109,11 +109,11 @@ const usePersistStore = create(
 )
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
-import { createStore, createHooks, createPersistMiddleware } from 'reactflow'
+// Fluxion
+import { createStore, createHooks, createPersistMiddleware } from 'fluxion'
 
 const fishStore = createStore(
   {
@@ -165,11 +165,11 @@ const useUserStore = create<UserState>((set) => ({
 }))
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
-import { createStore, createHooks, createAsyncMiddleware, createUseAsyncAction, isLoading, getErrors } from 'reactflow'
+// Fluxion
+import { createStore, createHooks, createAsyncMiddleware, createUseAsyncAction, isLoading, getErrors } from 'fluxion'
 
 interface UserState {
   users: User[]
@@ -247,11 +247,11 @@ const useBoundStore = create<BearSlice & FishSlice>()((set) => ({
 }))
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
-import { createStore, createHooks, createSlice, createUseSlice } from 'reactflow'
+// Fluxion
+import { createStore, createHooks, createSlice, createUseSlice } from 'fluxion'
 
 interface AppState {
   bears: { count: number }
@@ -294,9 +294,9 @@ function FishCounter() {
 }
 ```
 
-## Migrating from Redux to ReactFlow
+## Migrating from Redux to Fluxion
 
-This guide will help you migrate your application from Redux to ReactFlow. ReactFlow offers a simpler API with less boilerplate while maintaining powerful features.
+This guide will help you migrate your application from Redux to Fluxion. Fluxion offers a simpler API with less boilerplate while maintaining powerful features.
 
 ### Basic Store Migration
 
@@ -330,11 +330,11 @@ const counterReducer = (state = { count: 0 }, action) => {
 const store = createStore(counterReducer)
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
-import { createStore, createHooks } from 'reactflow'
+// Fluxion
+import { createStore, createHooks } from 'fluxion'
 
 interface CounterState {
   count: number
@@ -381,10 +381,10 @@ function Counter() {
 }
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
+// Fluxion
 function Counter() {
   const count = useSelector(state => state.count)
   const { increment, decrement } = useSelector(state => ({
@@ -459,11 +459,11 @@ const userReducer = (state = initialState, action) => {
 const store = createStore(userReducer, applyMiddleware(thunk))
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
-import { createStore, createHooks, createAsyncMiddleware, createUseAsyncAction, isLoading, getErrors } from 'reactflow'
+// Fluxion
+import { createStore, createHooks, createAsyncMiddleware, createUseAsyncAction, isLoading, getErrors } from 'fluxion'
 
 interface UserState {
   users: User[]
@@ -516,9 +516,9 @@ function UserComponent() {
 }
 ```
 
-## Migrating from Nano Stores to ReactFlow
+## Migrating from Nano Stores to Fluxion
 
-This guide will help you migrate your application from Nano Stores to ReactFlow. ReactFlow provides a more comprehensive API while maintaining the lightweight nature of Nano Stores.
+This guide will help you migrate your application from Nano Stores to Fluxion. Fluxion provides a more comprehensive API while maintaining the lightweight nature of Nano Stores.
 
 ### Basic Store Migration
 
@@ -541,11 +541,11 @@ function decrement() {
 }
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
-import { createStore, createHooks } from 'reactflow'
+// Fluxion
+import { createStore, createHooks } from 'fluxion'
 
 interface CounterState {
   count: number
@@ -591,10 +591,10 @@ function Counter() {
 }
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
+// Fluxion
 function Counter() {
   const count = useSelector(state => state.count)
   const { increment, decrement } = useSelector(state => ({
@@ -639,11 +639,11 @@ function removeUser(id: number) {
 }
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
-import { createStore, createHooks } from 'reactflow'
+// Fluxion
+import { createStore, createHooks } from 'fluxion'
 
 interface User {
   id: number
@@ -695,11 +695,11 @@ const $fullName = computed([$firstName, $lastName],
 )
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
-import { createStore, createHooks, createSelector } from 'reactflow'
+// Fluxion
+import { createStore, createHooks, createSelector } from 'fluxion'
 
 interface NameState {
   firstName: string
@@ -767,11 +767,11 @@ async function fetchUsers() {
 }
 ```
 
-#### ReactFlow
+#### Fluxion
 
 ```tsx
-// ReactFlow
-import { createStore, createHooks, createAsyncMiddleware, createUseAsyncAction, isLoading, getErrors } from 'reactflow'
+// Fluxion
+import { createStore, createHooks, createAsyncMiddleware, createUseAsyncAction, isLoading, getErrors } from 'fluxion'
 
 interface User {
   id: number
@@ -830,7 +830,7 @@ function UserComponent() {
 
 ## Feature Comparison
 
-| Feature | Zustand | Redux | Nano Stores | ReactFlow |
+| Feature | Zustand | Redux | Nano Stores | Fluxion |
 |---------|---------|-------|-------------|----------|
 | Boilerplate | Low | High | Very Low | Very Low |
 | TypeScript Support | Good | Good with Redux Toolkit | Good | Excellent |
@@ -845,4 +845,4 @@ function UserComponent() {
 | Time-Travel Debugging | No | Yes | No | Yes |
 | Vanilla JS Support | Yes | Yes | Yes | Yes |
 
-This migration guide covers the most common use cases, but ReactFlow offers many more features and optimizations. Check the main documentation for more detailed information on specific features.
+This migration guide covers the most common use cases, but Fluxion offers many more features and optimizations. Check the main documentation for more detailed information on specific features.

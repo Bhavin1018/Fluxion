@@ -73,7 +73,7 @@ function CounterWithSelector() {
 export function App() {
   return (
     <div className="app">
-      <h1>ReactFlow Counter Example</h1>
+      <h1>Fluxion Counter Example</h1>
       <div className="counters">
         <CounterWithFullStore />
         <CounterWithSelector />

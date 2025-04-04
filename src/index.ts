@@ -1,5 +1,5 @@
 /**
- * ReactFlow - A modern, lightweight state management library for React applications
+ * Fluxion - A modern, lightweight state management library for React applications
  */
 
 // Export core functionality
